@@ -31,6 +31,18 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           
-          
-      
+      - name: Docker pull & Run from Hub
+        uses: Seyone68/stock_exchange_cloud@main
+        with:
+          host: 3.141.104.176
+          username: ec2-user
+          key: ${{ secrets.AWS_ACCESS_KEY }}
+          env: aws-cli
+          script:
+            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/user-stock-service
+            minikube start
+            kubectl get pods
+            kubectl delete deployment user-stock-serv
+            kubectl create deployment user-stock-serv --image=${{ secrets.DOCKER_HUB_USERNAME }}/user-stock-service:latest
+            kubectl expose deployment user-stock-serv --type=NodePort --port=8080
             
