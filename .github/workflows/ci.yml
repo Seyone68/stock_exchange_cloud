@@ -39,8 +39,8 @@ jobs:
           key: AKIAYTR22JHZUT2TLM4C
           env: aws-cli
           script: |
-            docker pull seyone679/user-stock-service
+            docker pull seyone679/user-stock-service:1
             kubectl delete deployment user-stock-serv
-            kubectl create deployment user-stock-serv --image=seyone679/user-stock-service:latest
+            kubectl create deployment user-stock-serv --image=seyone679/user-stock-service:1
             kubectl expose deployment user-stock-serv --type=NodePort --port=8080
             
