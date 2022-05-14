@@ -38,5 +38,16 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: us-east-2
       
-      
+      - name: Docker pull & Run from Hub
+        uses: Seyone68/stock_exchange_cloud@main
+        with:
+          host: 3.141.104.176
+          username: ec2-user
+          key: AKIAYTR22JHZUT2TLM4C
+          env: GITHUB_SHA
+          run: |
+            docker pull seyone679/user-stock-service:1
+            kubectl delete deployment user-stock-serv
+            kubectl create deployment user-stock-serv --image=seyone679/user-stock-service:1
+            kubectl expose deployment user-stock-serv --type=NodePort --port=8080
             
