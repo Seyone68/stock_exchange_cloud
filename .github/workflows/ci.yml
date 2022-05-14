@@ -30,17 +30,13 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          
-      - name: Docker pull & Run from Hub
-        uses: Seyone68/stock_exchange_cloud@main
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          host: 3.141.104.176
-          username: ec2-user
-          key: AKIAYTR22JHZUT2TLM4C
-          env: aws-cli
-          script: |
-            docker pull seyone679/user-stock-service:1
-            kubectl delete deployment user-stock-serv
-            kubectl create deployment user-stock-serv --image=seyone679/user-stock-service:1
-            kubectl expose deployment user-stock-serv --type=NodePort --port=8080
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: us-east-2
+      
+      
             
